@@ -20,6 +20,11 @@ public class EmployeeController {
     public List<RegisterDetails> getAll() {
         return repo.findAll();
     }
+    @GetMapping("/test")
+    public String test() {
+        return "Auth service is up!";
+    }
+
 
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")

@@ -11,7 +11,10 @@ public class AuthController {
 
     @Autowired
     private AuthService svc;
-
+    @GetMapping("/test")
+    public String test() {
+        return "Auth service is up!";
+    }
     @PostMapping("/register")
     public String register(@RequestBody UserDetailsDto dto) {
         return svc.register(dto);

@@ -15,6 +15,7 @@ public class EmployeeController {
     @Autowired
     private RegisterDetailsRepository repo;
 
+
     @PreAuthorize("hasAnyRole('ADMIN','USER')")
     @GetMapping
     public List<RegisterDetails> getAll() {

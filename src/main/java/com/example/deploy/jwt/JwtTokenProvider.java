@@ -29,11 +29,9 @@ public class JwtTokenProvider {
     public String generateToken(Authentication authentication) {
         UserDetails user = (UserDetails) authentication.getPrincipal();
 
-        // ✅ Include roles/authorities in the payload
-        List<String> roles = user.getAuthorities()
-                .stream()
+        List<String> roles = user.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
-                .collect(Collectors.toList());
+                .collect(Collectors.toList()); // Already includes "ROLE_" from UserDetailsService
 
         return Jwts.builder()
                 .setSubject(user.getUsername())
@@ -66,14 +64,8 @@ public class JwtTokenProvider {
         try {
             Jwts.parserBuilder().setSigningKey(getKey()).build().parseClaimsJws(token);
             return true;
-        } catch (ExpiredJwtException e) {
-            System.err.println("JWT expired: " + e.getMessage());
-        } catch (UnsupportedJwtException e) {
-            System.err.println("Unsupported JWT: " + e.getMessage());
-        } catch (MalformedJwtException e) {
-            System.err.println("Malformed JWT: " + e.getMessage());
-        } catch (SecurityException | IllegalArgumentException e) {
-            System.err.println("JWT error: " + e.getMessage());
+        } catch (Exception e) {
+            System.err.println("Token error: " + e.getMessage());
         }
         return false;
     }

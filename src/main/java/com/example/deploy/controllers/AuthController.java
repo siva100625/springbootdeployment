@@ -22,6 +22,7 @@ public class AuthController {
         return svc.register(dto);
     }
 
+
     @PostMapping("/login")
     public String login(@RequestBody LoginRequest req) {
         return svc.login(req);

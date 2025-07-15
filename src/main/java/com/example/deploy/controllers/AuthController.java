@@ -6,14 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/auth")
 public class AuthController {
 
     @Autowired
     private AuthService svc;
-    @GetMapping("/test")
-    public String test() {
-        return "Auth service is up!";
+    @GetMapping("/home")
+    public String home() {
+        return "Welcome to home for Spring backend deployment";
     }
     @PostMapping("/register")
     public String register(@RequestBody UserDetailsDto dto) {

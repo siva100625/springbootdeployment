@@ -1,7 +1,9 @@
-package com.example.deploy.services;
+package com.example.springbootfirst.services;
 
-import com.example.deploy.models.RegisterDetails;
-import com.example.deploy.repository.RegisterDetailsRepository;
+
+
+import com.example.springbootfirst.models.RegisterDetails;
+import com.example.springbootfirst.repository.RegisterDetailRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -11,31 +13,29 @@ import org.mockito.MockitoAnnotations;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class EmployeeServiceTest {
+class EmployeeServiceTest {
 
     @Mock
-    private RegisterDetailsRepository registerDetailsRepository;
+    RegisterDetailRepository registerDetailRepository;
 
     @InjectMocks
-    private EmployeeService employeeServices;
+    EmployeeService employeeService;
 
     @BeforeEach
-    void setup() {
+    void setUp(){
         MockitoAnnotations.openMocks(this);
     }
 
     @Test
-    void testGetMethod() {
-        RegisterDetails emp1 = new RegisterDetails();
-        RegisterDetails emp2 = new RegisterDetails();
-
-        when(registerDetailsRepository.findAll()).thenReturn(Arrays.asList(emp1, emp2));
-
-        List<RegisterDetails> res = employeeServices.getMethod();  // assuming getMethod() internally calls findAll()
-
-        assertEquals(2, res.size());
+    void testGetMethod(){
+        RegisterDetails emp1= new RegisterDetails();
+        RegisterDetails emp2= new RegisterDetails();
+        when(registerDetailRepository.findAll()).thenReturn(Arrays.asList(emp1,emp2));
+        List<RegisterDetails> result = employeeService.getMethod();
+        assertEquals(2,result.size());
     }
+
 }

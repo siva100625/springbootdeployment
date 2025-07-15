@@ -30,4 +30,7 @@ public class EmployeeController {
         repo.deleteById(id);
         return "Employee deleted";
     }
+
+    public String addnewEmployee(UserDetailsDto user) {
+    }
 }

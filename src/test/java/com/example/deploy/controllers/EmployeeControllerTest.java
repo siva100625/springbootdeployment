@@ -40,7 +40,7 @@ public class EmployeeControllerTest {
 
     @Test
     void testDelete() {
-        int id = 1;
+        int id = 2;
         doNothing().when(repo).deleteById(id);
 
         String response = employeeController.delete(id);

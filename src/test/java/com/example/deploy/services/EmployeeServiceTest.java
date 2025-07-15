@@ -20,7 +20,7 @@ public class EmployeeServiceTest {
     private RegisterDetailsRepository registerDetailsRepository;
 
     @InjectMocks
-    private EmployeeService employeeService;
+    private EmployeeService employeeServices;
 
     @BeforeEach
     void setup() {
@@ -34,7 +34,7 @@ public class EmployeeServiceTest {
 
         when(registerDetailsRepository.findAll()).thenReturn(Arrays.asList(emp1, emp2));
 
-        List<RegisterDetails> res = employeeService.getMethod();  // assuming getMethod() internally calls findAll()
+        List<RegisterDetails> res = employeeServices.getMethod();  // assuming getMethod() internally calls findAll()
 
         assertEquals(2, res.size());
     }

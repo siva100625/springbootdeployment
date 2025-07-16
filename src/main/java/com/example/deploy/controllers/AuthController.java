@@ -1,30 +1,31 @@
 package com.example.deploy.controllers;
 
-import com.example.deploy.models.*;
-import com.example.deploy.services.AuthService;
+import com.example.deploy.Models.JwtResponse;
+import com.example.deploy.Models.LoginRequest;
+import com.example.deploy.Models.RegisterDetails;
+import com.example.deploy.Models.UserDetailsDto;
+import com.example.deploy.Repository.RegisterDetailsRepository;
+import com.example.deploy.Services.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
-
     @Autowired
-    private AuthService svc;
-
-    @GetMapping("/home")
-    public String home() {
-        return "Welcome to home for Spring backend deployment";
-    }
+    AuthService authService;
 
     @PostMapping("/register")
-    public String register(@RequestBody UserDetailsDto dto) {
-        return svc.register(dto);
+    public String addNewUser(@RequestBody UserDetailsDto registerDetails){
+        authService.addNewEmployee(registerDetails);
+        return "Employee Register Successfully";
     }
-
 
     @PostMapping("/login")
-    public String login(@RequestBody LoginRequest req) {
-        return svc.login(req);
+    public JwtResponse Login(@RequestBody LoginRequest login) {
+        return authService.authenticate(login);
     }
+
 }

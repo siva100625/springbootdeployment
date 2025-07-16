@@ -1,36 +1,68 @@
 package com.example.deploy.controllers;
 
-import com.example.deploy.models.RegisterDetails;
-import com.example.deploy.repository.RegisterDetailsRepository;
+import com.example.deploy.Models.*;
+import com.example.deploy.Services.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 @RestController
-@RequestMapping("/employee")
+//@RequestMapping("/employee")
 public class EmployeeController {
-
+    //Service layer
     @Autowired
-    private RegisterDetailsRepository repo;
+    private EmployeeService employeeService;
 
 
-    @PreAuthorize("hasAnyRole('ADMIN','USER')")
-    @GetMapping
-    public List<RegisterDetails> getAll() {
-        return repo.findAll();
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
+    @GetMapping("/")
+    public String sample(){
+        return "Welcome to SPRING-BOOT Security Features";
     }
 
+
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
+    @GetMapping("/employee")
+    public List<RegisterDetails> getEmployees(){
+        return employeeService.getAllEmployees();
+    }
+
+
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
+    @GetMapping("/employee/{empId}")
+    public RegisterDetails getEmployeeById(@PathVariable int empId) {
+        return employeeService.getEmployeeById(empId);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/employee/role/{roleName}")
+    public List<EmployeeRoleDTO> getEmployeeByRole(@PathVariable String roleName){
+        return employeeService.getEmployeeByRole(roleName);
+    }
 
 
     @PreAuthorize("hasRole('ADMIN')")
-    @DeleteMapping("/{id}")
-    public String delete(@PathVariable int id) {
-        repo.deleteById(id);
-        return "Employee deleted";
+    @DeleteMapping("/employee/{empId}")
+    public String deleteEmployeeById(@PathVariable int empId){
+        return employeeService.deleteEmployeeById(empId);
     }
 
-    public String addnewEmployee(UserDetailsDto user) {
+    @PreAuthorize("hasRole('ADMIN')")
+    @DeleteMapping("/employee")
+    public String deleteAllEmployee(){
+        return employeeService.deleteAllEmployee();
     }
+
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @PutMapping("/employee/{empId}")
+    public String updateRecord(@PathVariable int empId,@RequestBody UserDetailsDto updateDetails){
+        return employeeService.updateRecord(empId,updateDetails);
+    }
+
+
 }

@@ -1,9 +1,8 @@
-package com.example.springbootfirst.services;
+package com.example.deploy.Services;
 
-
-
-import com.example.springbootfirst.models.RegisterDetails;
-import com.example.springbootfirst.repository.RegisterDetailRepository;
+import com.example.deploy.Models.RegisterDetails;
+import com.example.deploy.Repository.RegisterDetailsRepository;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -17,9 +16,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 class EmployeeServiceTest {
-
     @Mock
-    RegisterDetailRepository registerDetailRepository;
+    RegisterDetailsRepository registerDetailsRepository;
 
     @InjectMocks
     EmployeeService employeeService;
@@ -31,11 +29,11 @@ class EmployeeServiceTest {
 
     @Test
     void testGetMethod(){
-        RegisterDetails emp1= new RegisterDetails();
-        RegisterDetails emp2= new RegisterDetails();
-        when(registerDetailRepository.findAll()).thenReturn(Arrays.asList(emp1,emp2));
-        List<RegisterDetails> result = employeeService.getMethod();
+        RegisterDetails emp1 = new RegisterDetails();
+        RegisterDetails emp2 = new RegisterDetails();
+        when(registerDetailsRepository.findAll()).thenReturn(Arrays.asList(emp1,emp2));
+        List<RegisterDetails> result = employeeService.getAllEmployees();
         assertEquals(2,result.size());
     }
-
 }
+

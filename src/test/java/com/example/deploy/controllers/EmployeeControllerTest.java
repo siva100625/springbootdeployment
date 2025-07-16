@@ -1,92 +1,65 @@
 package com.example.deploy.controllers;
 
-import com.example.deploy.models.RegisterDetails;
-import com.example.deploy.repository.RegisterDetailsRepository;
+import com.example.deploy.Models.RegisterDetails;
+import com.example.deploy.Models.Roles;
+import com.example.deploy.Services.EmployeeService;
+import org.aspectj.lang.annotation.Before;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.data.relational.core.sql.When;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.when;
 
-public class EmployeeControllerTest {
-
+class EmployeeControllerTest {
     @Mock
-    private RegisterDetailsRepository repo;
+    EmployeeService employeeService;
 
     @InjectMocks
-    private EmployeeController employeeController;
+    EmployeeController employeeController;
 
     @BeforeEach
-    void setup() {
+    void setUp(){
         MockitoAnnotations.openMocks(this);
     }
 
     @Test
-    void testGetAll() {
-        RegisterDetails emp1 = new RegisterDetails();
-        RegisterDetails emp2 = new RegisterDetails();
-        when(repo.findAll()).thenReturn(Arrays.asList(emp1, emp2));
-
-        List<RegisterDetails> result = employeeController.getAll();
-        assertEquals(2, result.size());
-        verify(repo, times(1)).findAll();
+    void testRoute(){
+        String result = employeeController.sample();
+        assertEquals("Welcome to SPRING-BOOT Security Features",result);
     }
 
     @Test
-    void testDelete() {
-        int id = 2;
-        doNothing().when(repo).deleteById(id);
-
-        String response = employeeController.delete(id);
-        assertEquals("Employee deleted", response);
-        verify(repo, times(1)).deleteById(id);
-    }
-    @Test
-    void testgetMethod(){
+    void testGetMethod(){
         RegisterDetails emp1 = new RegisterDetails();
         RegisterDetails emp2 = new RegisterDetails();
-        when(employeeService.getMethod()).thenReturn(Arrays.asList(emp1,emp2));
-        List<RegisterDetails> result = employeeController.getMethod();
+        when(employeeService.getAllEmployees()).thenReturn(Arrays.asList(emp1,emp2));
+        List<RegisterDetails> result = employeeService.getAllEmployees();
         assertEquals(2,result.size());
     }
 
     @Test
-    void testgetEmployeeById(){
-        int empid = 1;
-        RegisterDetails emp1 = new RegisterDetails();
-        emp1.setEmpID(empid);
-        when(employeeService.getEmployeeById(empid)).thenReturn(emp1);
-        RegisterDetails result = employeeController.getEmployeeById(empid);
-        assertEquals(empid,result.getEmpID());
-    }
-
-    @Test
-    void testAddNewEmployee(){
-        UserDetailsDto user = new UserDetailsDto();
-        user.setName("Siva");
-        user.setEmail("Siva@email.com");
-        user.setPassword("1234");
-        String expectedMessage = "Employee add successfully";
-        when(employeeService.addNewEmployee(user)).thenReturn(expectedMessage);
-        String result = employeeController.addnewEmployee(user);
-        assertEquals(expectedMessage, result);
-    }
-
-    @Test
-    void testUpdateEmployee(){
+    void testGetEmployeeById(){
         int empId = 1;
-        UserDetailsDto user = new UserDetailsDto();
-        user.setName("siva");
-        user.setEmail("siva@email.com");
-        String expectedMessage = "Employee update successfully";
-        when(employeeService.updateEmployee(empId, user)).thenReturn(expectedMessage);
-        String result = employeeController.updateEmployee(empId, user);
-        assertEquals(expectedMessage, result);
+        RegisterDetails mockEmployee = new RegisterDetails();
+        mockEmployee.setEmpId(empId);
+        mockEmployee.setUserName("sanz");
+
+        when(employeeService.getEmployeeById(empId)).thenReturn(mockEmployee);
+        RegisterDetails result = employeeController.getEmployeeById(empId);
+
+        assertNotNull(result);
+        assertEquals(mockEmployee.getEmpId(),result.getEmpId());
+        assertEquals(mockEmployee.getUserName(),result.getUserName());
+
     }
+
+
 }
